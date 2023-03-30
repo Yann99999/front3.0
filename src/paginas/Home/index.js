@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import Context from "../../contexts/UserContext";
 
 import Header from "../../componentes/Header";
-import { ModalDialog } from "react-bootstrap";
+import { CardClass } from "./Cards/cardHome";
+
 
 export default function Home() {
   const [user] = useContext(Context);
@@ -11,6 +12,7 @@ export default function Home() {
   return (
     <main>
       <Header/>
+     <CardClass/>
   
       {/* <Carrossel/> */}
       {/* <Motoboy/> */}

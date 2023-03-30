@@ -1,21 +1,22 @@
 import React from "react";
 import { FiSettings, FiEdit2, FiX } from "react-icons/fi";
 
-export default props => {
+function CategoriasTable (props)
+ {
 
-    const rows = props.produtos.map((produto,index) => {
+    const rows = props.categorias.map((categoria,index) => {
 
         return (
             <tr key={index}>
-                <td>{produto.nome}</td>
-                <td>{produto.categoria.nome}</td>
+                <td>{categoria.nome}</td>
+            
                 <td>
                     <button className="btn-actions"
-                        onClick={e => props.editAction(produto)}>
+                        onClick={e => props.editAction(categoria)}>
                             <FiEdit2 color="white" size={20}></FiEdit2>
                         </button>
                     <button className="btn-actions"
-                        onClick={e => props.deleteAction(produto)}>
+                        onClick={e => props.deleteAction(categoria)}>
                             <FiX color="white" size={20}></FiX>
                         </button>
 
@@ -28,7 +29,6 @@ export default props => {
         <table className="table table-hover">
             <thead>
                 <tr>
-                    <th scope="col">Produto</th>
                     <th scope="col">Categoria</th>
                     <th scope="col">
                         <FiSettings color="white" size={18} className="icon-settings"></FiSettings>
@@ -41,3 +41,4 @@ export default props => {
         </table>
     )
 }
+export default CategoriasTable;

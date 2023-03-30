@@ -1,10 +1,10 @@
 import logo from '../../assets/logo.png';
-import {Link} from 'react-router-dom';
+
 import {  useContext, useState } from 'react';
 
-import {FiLock, FiMail } from "react-icons/fi";
+
 import api from "../../services/api";
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import UserContext from "../../contexts/UserContext";
 import { setAuthToken } from '../../utils/setAuthToken';
 import { limparCaches } from '../../utils/limparCaches';
@@ -78,9 +78,9 @@ export default function Login(){
              
                 if (erro.includes('400') ||  erro.includes('404'))
                    alert(Mensagens.UsuarioESenhaInvalida )   
-                else  
-                   alert(Mensagens.ErroGenerico + err)
-      
+                else  {
+                   alert(Mensagens.ErroGenerico + err +'\nFor support contact senior intern Yann by phone 95484-2050...')
+                }
             });
         
         }
@@ -91,26 +91,26 @@ export default function Login(){
     }
     return(
         <div className='fundo-container'>
-            <div className='container'>
-                <img src={logo} alt='Logo do restaurante'/>
+        <div className='container'>
+            <img src={logo} alt='Logo do restaurante' />
+            <div class="login-box">
 
-                <form onSubmit={Logar}>
-                    <div className="input-icons">
-                        <span><FiMail size={18} color='rgb(194, 194, 194)'/></span>
-                        <input  type="email" placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
+                <form className="form-contato"  onSubmit={Logar}>
+                    <div class="user-box">
+                        <input type="email" placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <label>E-mail</label>
                     </div>
-
-                    <div className="input-icons">
-                            
-                    <span><FiLock size={18} color='rgb(194, 194, 194)'/></span>
-                    <input type="password" placeholder='Senha' value={senha} onChange={(e) => setSenha(e.target.value)}/>
-                    </div>
-                    <button type="submit" className='form-btn' >Login</button>
+                    <div class="user-box">
+                        <input type="password" placeholder='****' value={senha} onChange={(e) => setSenha(e.target.value)} />
+                        <label>Senha</label>
+                    </div><center>
+                    <button type="submit" className='form-btn'>Login</button></center>
                 </form>
 
-                <p className='form-link'>Não possui cadastro? Registre-se 
+                <p className='form-link'>Não possui cadastro? Registre-se
                 <Link to="/cadastroCliente"> aqui</Link> .</p>
             </div>
         </div>
+    </div>
     )
 }

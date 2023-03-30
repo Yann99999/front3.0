@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Antonio:wght@100&display=swap');
+*{
+font-family: 'Antonio', sans-serif;;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -6,7 +11,5 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 50vw;
-    width: 100%;
-  }
+}
   

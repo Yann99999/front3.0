@@ -1,4 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Kalam:wght@300&display=swap");
+*{
+    font-family: 'Kalam', cursive;
+}
 
 header{
     display: flex;
@@ -66,42 +69,54 @@ li{
     color: rgb(208, 203, 203);
 
 }
-
 .header-user-list{
     background-color:   rgb(27, 27, 27);
-    border-radius: 8px 0 8px 8px;
+    width: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: -90px;
+    margin-left: -200px;
+    border-radius: 5px;
+    z-index: 2;
+    box-shadow: 0 0 .5em black;
+}
+.header-user-list > ul{
     align-items: center;
     justify-content: center;
     display: flex;
     flex-direction: column;
-    width: 170px;
-    margin-top: -80px;
+    text-align: center;
+    margin-left: -40px;
 }
 .header-user-list ul>li{
-    margin-left: 10px;
+    line-height: 20px;
     font-size: .7em;
     text-align: center;
-    padding-top: 5px;
+    padding-top: 8px;
+    font-size: 1em;
+    list-style-type: none;
+    width: 100%;
 }
 .header-links a{
     text-decoration: none;
+    
     color: rgb(208, 203, 203);
 }
-.header-user-list>span{
-    text-align: center;
-    align-items: center;
-    color: rgb(208, 203, 203);
+.header-user-list span{
+    color:#948849;
 }
 .btn-logout{
     background-color: transparent;
     border: none;
     padding: 0;
     align-items: center;
-    margin-left: 20px;
 }
 .ocultar{
-    visibility: hidden;
+    opacity: 0;
 }
+
 
 
 

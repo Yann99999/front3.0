@@ -13,46 +13,46 @@ import './categoria.css';
 import { FiPlus } from "react-icons/fi";
 
 function CadastroCategoria() {
-    const [produtos, setProdutos] = useState([]);
+    const [categorias, setCategorias] = useState([]);
 
-    const [produtosDeletar, setProdutosDeletar] = useState({})
+    const [categoriasDeletar, setCategoriasDeletar] = useState({})
     const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-    const [showEditProduto, setShowEditProduto] = useState(false);
+    const [showEditCategoria, setShowEditCategoria] = useState(false);
 
 
 
     const [id, setId] = useState('')
     const [nome, setNome] = useState('')
-    const [produtoEditar, setProdutoEditar] = useState({})
+    const [categoriaEditar, setCategoriaEditar] = useState({})
     const [tituloForm, setTituloForm] = useState('')
 
     useEffect(() => {
-        carregarProduto();
+        carregarCategoria();
     }, []);
 
-    const carregarProduto = () => {
+    const carregarCategoria = () => {
 
-        api.get('/api/produtos')
+        api.get('/api/categorias')
             .then(resposta => {
-                setProdutos(resposta.data);
+                setCategorias(resposta.data);
             })
             .catch(error => { console.log(error) })
     }
 
-    const abrirConfirmacao = (produto) => {
+    const abrirConfirmacao = (categoria) => {
         cancelarEdicao()
         setShowConfirmDialog(true);
-        setProdutosDeletar(produto);
+        setCategoriasDeletar(categoria);
     }
 
     const cancelarDelecao = () => {
         setShowConfirmDialog(false);
-        setProdutosDeletar({})
+        setCategoriasDeletar({})
     }
 
     const cancelarEdicao = () => {
-        setShowEditProduto(false);
-        setProdutoEditar({});
+        setShowEditCategoria(false);
+        setCategoriaEditar({});
     }
 
     const confirmDialogFooter = () => (
@@ -64,13 +64,13 @@ function CadastroCategoria() {
 
 
     const deletar = () => {
-         api.delete('/api/produtos/'+ produtosDeletar.id)
+        api.delete('/api/categorias/' + categoriasDeletar.id)
             .then(response => {
                 console.log(response.status)
-                const produtos = produtos;
-                const index = produtos.indexOf(produtos);
-                produtos.splice(index, 1);
-                setProdutos(produtos);
+                const categoriasLst = categorias;
+                const index = categoriasLst.indexOf(categoriasDeletar);
+                categoriasLst.splice(index, 1);
+                setCategorias(categoriasLst);
                 setShowConfirmDialog(false);
                 toast.success('Categoria excluído com sucesso!');
             })
@@ -97,13 +97,13 @@ function CadastroCategoria() {
     }
 
 
-    const abrirEdicao = (produto) => {
+    const abrirEdicao = (categoria) => {
         cancelarDelecao();
-        setId(produto.id)
-        setNome(produto.nome)
+        setId(categoria.id)
+        setNome(categoria.nome)
         setTituloForm('Edição')
-        setShowEditProduto(true)
-        setProdutoEditar(produto);
+        setShowEditCategoria(true)
+        setCategoriaEditar(categoria);
     }
 
 
@@ -112,44 +112,41 @@ function CadastroCategoria() {
         setId('')
         setNome('')
         setTituloForm('Inclusão')
-        setShowEditProduto(true)
+        setShowEditCategoria(true)
     }
 
 
     const editar = () => {
-        const produto = {
+        const categoria = {
             id: id,
             nome: nome
         }
 
         if (id === '') {
-            api.post('/api/produtos', produto)
+            api.post('/api/categorias', categoria)
                 .then(response => {
+                    let prodNew = response.data
+                    let listaCategorias = categorias;
+                    listaCategorias.push(prodNew);
+                    setCategorias(listaCategorias);
 
-                    var prodNew = response.data
-
-                    let listaProd = produtos;
-                    listaProd.push(prodNew);
-                    setProdutos(listaProd);
-
-                    setShowEditProduto(false)
-                    setProdutoEditar({})
-                    toast.success('Produto cadastrado com sucesso!');
+                    setShowEditCategoria(false)
+                    setCategoriaEditar({})
+                    toast.success('Categoria cadastrado com sucesso!');
                 })
                 .catch(error => {
                     toast.error(error);
                 });
         }
         else {
-            api.put('/api/produtos/' + produto.id, produto)
+            api.put('/api/categorias/' + categoria.id, categoria)
                 .then(response => {
-                    let listaProd = listaProd;
-                    const index = listaProd.indexOf(produtoEditar);
-
-                    listaProd[index] = produto;
-                    setProdutos(listaProd)
-                    setShowEditProduto(false);
-                    setProdutoEditar({})
+                    let listaCategorias = categorias;
+                    const index = listaCategorias.indexOf(categoriaEditar);
+                    listaCategorias[index] = categoria;
+                    setCategorias(listaCategorias)
+                    setShowEditCategoria(false);
+                    setCategoriaEditar({})
                     toast.success('Categoria alterado com sucesso!');
                 })
                 .catch(error => {
@@ -172,9 +169,9 @@ function CadastroCategoria() {
                 <Header />
             </div>
 
-            <Card title="Consultar Produtos">
+            <Card title="Consultar Categorias">
                 <div>
-                    <button onClick={abrirInclusao} className="cadastrar-produtos-btn">
+                    <button onClick={abrirInclusao} className="cadastrar-btn">
                         <FiPlus color="white" size={22}></FiPlus>
                     </button>
                 </div>
@@ -182,7 +179,7 @@ function CadastroCategoria() {
                     <div className="col-md-12">
                         <div className="bs-component">
 
-                            <CategoriasTable produtos={produtos}
+                            <CategoriasTable categorias={categorias}
                                 deleteAction={abrirConfirmacao}
                                 editAction={abrirEdicao}     ></CategoriasTable>
 
@@ -190,37 +187,32 @@ function CadastroCategoria() {
                     </div>
                 </div>
                 <div className="modal-exclusao">
-                    {/* <span>Tem certeza de que deseja excluir o produto do sistema?</span>
-                    <div className="modal-exclusao-btns">
-                        <Button label="Salvar" icon="pi pi-save" onClick={editar} />
-                        <Button label="Cancelar" icon="pi pi-times" onClick={cancelarEdicao} />
-                    </div> */}
-                    
                     <Dialog header="Confirmação"
                         visible={showConfirmDialog}
                         style={{ width: '50vw' }}
                         footer={confirmDialogFooter}
                         modal={true}
                         onHide={() => setShowConfirmDialog(false)}>
-                        <p>Confirma a exclusão do produto?</p>
+                        <p>Confirma a exclusão do categoria?</p>
                     </Dialog>
                 </div>
-                <div>
+                <div className="modal-edicao">
                     <Dialog header={tituloForm}
-                        visible={showEditProduto}
+                        headerStyle={{ background: '#948849', color: 'azure' }}
+                        visible={showEditCategoria}
                         style={{ width: '50vw' }}
                         footer={editFooter}
                         modal={true}
-                        onHide={() => setShowEditProduto(false)}>
+                        onHide={() => setShowEditCategoria(false)}>
                         <div className="bs-component">
-                            <FormGroup htmlFor="inputNome" label="Nome: *" >
+                            <FormGroup htmlFor="inputNome" label="Nome: " >
                                 <input type="text"
                                     value={nome}
                                     onChange={e => setNome(e.target.value)}
-                                    className="form-control"
+                                    className="form-control w80"
                                     id="inputEditNome"
                                     aria-describedby="nomeHelp"
-                                    placeholder="Digite o nome do produto">
+                                    placeholder="Digite o nome do categoria">
                                 </input>
                             </FormGroup>
 

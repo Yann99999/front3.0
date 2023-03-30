@@ -1,3 +1,4 @@
+
 @import url("https://fonts.googleapis.com/css2?family=Kalam:wght@300&display=swap");
 *{
     font-family: 'Kalam', cursive;
@@ -13,6 +14,7 @@
     transition: all .6s ease-in-out;
     color:rgb(208, 203, 203);
 }
+
 .dropdown-btn:hover{
     color: rgb(253, 248, 248);
     text-shadow: 0 0 1.3em #d7d4c1;

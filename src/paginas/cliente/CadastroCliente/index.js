@@ -14,59 +14,30 @@ export default function CadastroCliente() {
     const history = useHistory();
 
 
-    function Buscar() {
-
-        //api.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-
-
-
-        api
-            .get("/api/clientes/todos")
-
-            .then((response) => {
-                if (response.data != null) {
-                    console.log(response.data[0]);
-                    alert(response.data[0].nome)
-                }
-                else alert("Error on create new user, contact the admin")
-            })
-            .catch((err) => {
-                var erro = err.toString();;
-
-                if (erro.includes('400'))
-                    alert(`Email ${email} já cadastrado!`)
-                else alert("ops! ocorreu um erro:\n" + err)
-
-
-            });
-
-    }
 
 
     function Cadastrar(e) {
         e.preventDefault();
-
         if (senha !== confirmarSenha) {
             alert('Digite senhas iguais');
         }
-        else if ((username !== '' && email !== '' && senha !== '' && confirmarSenha !== '') && senha === confirmarSenha)
-         {
+        else if ((username !== '' && email !== '' && senha !== '' && confirmarSenha !== '') && senha === confirmarSenha) {
             var usuario = {
                 nome: username,
                 email: email,
                 senha: senha,
                 roles: 'USER'
             }
-            
-           //  api.defaults.headers.post['Access-Control-Allow-Origin'] = 'http://localhost:3000';
-         //  api.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-           //  api.defaults.headers.post['Access-Control-Allow-Credentials'] = 'true';
-             //api.defaults.headers.post['Access-Control-Allow-Credentials'] = 'true';
-            
-             api.defaults.headers.post['Authorization'] = 'Basic user:123';
+
+            //  api.defaults.headers.post['Access-Control-Allow-Origin'] = 'http://localhost:3000';
+            //  api.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+            //  api.defaults.headers.post['Access-Control-Allow-Credentials'] = 'true';
+            //api.defaults.headers.post['Access-Control-Allow-Credentials'] = 'true';
+
+            api.defaults.headers.post['Authorization'] = 'Basic user:123';
 
 
-                api
+            api
                 .post("/api/clientes/cadastrar", usuario)
                 .then((response) => {
                     if (response.data != null) {
@@ -92,37 +63,32 @@ export default function CadastroCliente() {
         <div className='fundo-container'>
             <div className='container'>
                 <img src={logo} alt='Logo do restaurante' />
+                <div class="login-box">
 
+                    <form className="form-login"  onSubmit={Cadastrar}>
+                        <div class="user-box">
+                            <input type="username" placeholder='Username' value={username} onChange={(e) => setUsername(e.target.value)} />
 
-                <form className='formCadCliente' onSubmit={Cadastrar}>
+                            <label>Username</label>
+                        </div>
+                        <div class="user-box">
+                            <input type="email" placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
+                            <label>E-mail</label>
+                        </div>
+                        <div class="user-box">
+                            <input type="password" placeholder='****' value={senha} onChange={(e) => setSenha(e.target.value)} />
+                            <label>Senha</label>
+                        </div><center>
+                        <div class="user-box">
+                            <input type="password" placeholder='****' value={confirmarSenha} onChange={(e) => setConfirmarSenha(e.target.value)} />
+                            <label>Confirmar Senha</label>
+                        </div>
+                        <button type="submit" className='form-btn'>Cadastrar-se</button></center>
+                    </form>
 
-                    <div className="input-icons">
-                        <span><FiUser size={18} color='rgb(194, 194, 194)' /></span>
-                        <input type="text" placeholder='Username' value={username} onChange={(e) => setUsername(e.target.value)} />
-                    </div>
-
-                    <div className="input-icons">
-                        <span><FiMail size={18} color='rgb(194, 194, 194)' /></span>
-                        <input type="email" placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
-                    </div>
-
-                    <div className="input-icons">
-                        <span><FiLock size={18} color='rgb(194, 194, 194)' /></span>
-                        <input type="password" placeholder='Senha' value={senha} onChange={(e) => setSenha(e.target.value)} />
-                    </div>
-
-                    <div className="input-icons">
-                        <   span><FiUnlock size={18} color='rgb(194, 194, 194)' /></span>
-                        <input type="password" placeholder='Confirmar senha' value={confirmarSenha} onChange={(e) => setConfirmarSenha(e.target.value)} />
-                    </div>
-
-
-                    <button type="submit" className='form-btn'>Cadastrar</button>
-                    
-                </form>
-
-                <p className='form-link'>Já possui uma conta? Entre
+                    <p className='form-link'>Não possui cadastro? Registre-se
                     <Link to="/"> aqui</Link> .</p>
+                </div>
             </div>
         </div>
     )
